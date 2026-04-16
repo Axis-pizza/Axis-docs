@@ -1,0 +1,58 @@
+---
+title: "Rebalancing"
+description: "How Axis maintains ETF basket weights without leaking value to arbitrageurs"
+---
+
+## Why Rebalancing Matters
+
+An ETF basket is defined by target weights. As prices change, actual weights drift away from targets. A basket defined as 50% SOL / 50% JUP will become 60/40 if SOL outperforms — and without rebalancing, it stops representing the intended strategy.
+
+Rebalancing restores target weights. But in standard AMMs, rebalancing is expensive: every rebalance trade is visible to arbitrageurs who can front-run or back-run it, extracting value from the pool. This is called **LVR (Loss-Versus-Rebalancing)**.
+
+Axis's architecture is designed to minimize this loss.
+
+---
+
+## How Axis Rebalances
+
+Axis uses two mechanisms together:
+
+**G3M / TFMM (Time-Function Market Maker)** — The AMM uses dynamic weights rather than fixed weights. Target weights can be updated according to a strategy, allowing the pool to smoothly interpolate between states rather than making abrupt rebalancing jumps.
+
+**PFDA (Periodic Batch Auction)** — Rebalancing swaps are processed in batch windows. All orders in a window clear at a single uniform price. MEV searchers compete to clear the batch, and their bid flows back to the protocol. No single arbitrageur can front-run a rebalancing trade.
+
+Together, these mechanisms reduce the value leaked to arbitrageurs compared to standard fixed-weight AMMs or continuous rebalancing.
+
+---
+
+## Drift Detection
+
+The on-chain program tracks deviation of actual weights from target weights. A pool can trigger a rebalance if any token's weight drifts beyond the threshold:
+
+```
+drift = |actual_weight - target_weight| / target_weight
+```
+
+When drift exceeds the configured threshold (default 5%), the pool signals that rebalancing is needed.
+
+---
+
+## Rebalancing in the Current MVP
+
+In the current Mainnet closed beta:
+
+- Rebalancing is triggered by the drift detection mechanism
+- The actual rebalancing swap routes through Jupiter
+- The PFDA batch auction processes all rebalancing orders alongside user invest/redeem orders
+
+Some aspects of the full TFMM dynamic weight rebalancing architecture are still being finalized. See [Open Questions](/research/open-questions).
+
+---
+
+## Devnet vs. Mainnet
+
+On Devnet, the rebalancing flow runs but the Jito searcher network is not active — MEV auction yields are not generated. On Mainnet, the full PFDA mechanism is live.
+
+<CardGroup cols={2}>
+  <Card title="PFDA Mechanism" icon="circle-info" href="/protocol/pfda" />
+</CardGroup>

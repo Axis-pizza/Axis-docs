@@ -1,0 +1,117 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about Axis"
+---
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What is Axis?">
+    Axis is a permissionless on-chain ETF platform on Solana. Anyone can create a basket of crypto tokens as a tradeable ETF, and anyone can invest in one with a single transaction.
+  </Accordion>
+
+  <Accordion title="Is Axis a DEX?">
+    Not exactly. Axis is an ETF protocol — the underlying swap routing uses Jupiter, but the core product is basket creation, investment, and rebalancing. The PFDA mechanism handles rebalancing in a fundamentally different way from a standard AMM.
+  </Accordion>
+
+  <Accordion title="Do I need KYC to use Axis?">
+    No. The protocol is permissionless and non-custodial. You connect a wallet and transact directly on-chain. No account creation or identity verification is required. U.S. persons are excluded from Mainnet by geographic restriction.
+  </Accordion>
+
+  <Accordion title="Who controls my funds?">
+    Nobody. Your assets are held in smart contract vaults on Solana. Axis, Inc. has no custody over user funds. You can withdraw at any time by calling Redeem.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Devnet vs. Mainnet
+
+<AccordionGroup>
+  <Accordion title="What's the difference between Devnet and Mainnet?">
+    Devnet ([axs.pizza](https://axs.pizza)) runs on Solana Devnet with no real funds. It's open to anyone. Mainnet ([mainnet.axs.pizza](https://mainnet.axs.pizza)) runs on Solana Mainnet with real funds and is invite-only during closed beta.
+  </Accordion>
+
+  <Accordion title="Can I use the same wallet on both?">
+    Yes. Your Solana wallet works on both networks. Just switch your wallet's network setting when switching between Devnet and Mainnet.
+  </Accordion>
+
+  <Accordion title="Will my Devnet ETFs carry over to Mainnet?">
+    No. Devnet and Mainnet are entirely separate environments. Devnet ETFs, positions, and history are not transferred.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## ETF Creation
+
+<AccordionGroup>
+  <Accordion title="What tokens can I include in an ETF basket?">
+    Any SPL token supported by Jupiter routing. On Devnet, you can use any available Devnet token. On Mainnet, tokens need sufficient liquidity for Jupiter to route swaps.
+  </Accordion>
+
+  <Accordion title="How many tokens can a basket contain?">
+    Between 2 and 10 tokens.
+  </Accordion>
+
+  <Accordion title="Can I change the basket composition after creation?">
+    No. The token composition and weights are fixed at creation. Only the dynamic weight rebalancing (handled by the protocol) adjusts actual holdings over time.
+  </Accordion>
+
+  <Accordion title="Is there a cost to create an ETF?">
+    Only the Solana transaction fee (typically less than 0.001 SOL). There is no protocol fee for creation.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Investing
+
+<AccordionGroup>
+  <Accordion title="What do I receive when I invest in an ETF?">
+    You receive an SPL token representing your proportional share of the ETF's underlying basket. This token is transferable and can be redeemed at any time.
+  </Accordion>
+
+  <Accordion title="How do I exit a position?">
+    Tap Redeem on your position in the Portfolio view. You will receive the underlying tokens proportionally.
+  </Accordion>
+
+  <Accordion title="Is there slippage?">
+    Yes. On Devnet, liquidity is thin and slippage may be significant for larger trades. On Mainnet, routing goes through Jupiter and slippage depends on underlying token liquidity.
+  </Accordion>
+
+  <Accordion title="What is the PFDA and how does it affect my swap?">
+    Your swap request is queued in a batch for up to 10 Solana slots (~4 seconds). At the end of the window, all requests in the batch are cleared at a single uniform price. This means you cannot be front-run. After clearing, you call Claim to receive your output tokens. See [PFDA Mechanism](/protocol/pfda).
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Fees
+
+<AccordionGroup>
+  <Accordion title="What fees does Axis charge?">
+    - **Swap fee:** 0.25% per swap
+    - **AUM fee:** 0.20% annually
+
+    See [Fee Model](/products/fees) for the full breakdown.
+  </Accordion>
+
+  <Accordion title="Where do fees go?">
+    Swap fees go to the protocol treasury. AUM fees go to the protocol. MEV auction proceeds from the PFDA go to the protocol treasury.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Security
+
+<AccordionGroup>
+  <Accordion title="Has Axis been audited?">
+    Not yet. The protocol is unaudited as of the Mainnet closed beta. A Tier 2/3 audit is planned before Mainnet V1. Do not deposit funds you cannot afford to lose.
+  </Accordion>
+
+  <Accordion title="What are the main risks?">
+    Smart contract risk (unaudited), oracle risk (Switchboard dependency), liquidity risk (thin pools on Devnet), and design risk (architecture still being finalized). See [Known Risks](/trust/risks).
+  </Accordion>
+</AccordionGroup>

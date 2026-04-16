@@ -1,0 +1,103 @@
+---
+title: "Protocol Overview"
+description: "The vault, the AMM, and the PFDA batch auction — how they connect"
+---
+
+Axis is built on three interconnected components: a vault system for ETF token lifecycle, a dynamic-weight AMM for basket pricing, and a PFDA batch auction for MEV internalization.
+
+---
+
+## Component Map
+
+```
+User
+  │
+  ├── invest / redeem
+  │         │
+  │    [BatchQueue PDA]
+  │         │
+  │    ClearBatch (Jito searcher)
+  │         │
+  │    [PFDA-AMM-3]  ←── Switchboard oracle bound
+  │         │
+  │    [Jupiter routing]  (residual external flow)
+  │         │
+  │    [Axis Vault]
+  │         │
+  └── claim ETF tokens / underlying
+```
+
+---
+
+## The Vault
+
+The Axis Vault holds the underlying SPL tokens for each ETF. When a user invests, tokens flow into the vault and ETF tokens are minted. When a user redeems, ETF tokens are burned and underlying tokens are released proportionally.
+
+Core vault instructions:
+
+| Instruction | Description |
+|---|---|
+| `create_etf` | Initialize a new ETF vault and SPL Token mint |
+| `deposit` | Deposit tokens into the vault, receive ETF tokens |
+| `withdraw` | Burn ETF tokens, receive underlying assets |
+
+---
+
+## The AMM
+
+Axis uses a **G3M (Geometric Mean Market Maker)** as the pool pricing engine, with a target architecture extending to TFMM (dynamic weights).
+
+The standard G3M invariant:
+
+```
+∏ x_i^{w_i} = k
+```
+
+where `x_i` is the reserve of token i, `w_i` is the target weight, and `k` grows monotonically as fees accumulate.
+
+Unlike fixed-weight AMMs, Axis's design supports dynamic weights — target allocations can be updated to reflect strategy changes, with smooth interpolation between states.
+
+<Card title="PFDA Mechanism" icon="circle-info" href="/protocol/pfda" />
+
+---
+
+## The PFDA Batch Auction
+
+The PFDA sits on top of the AMM and handles order routing.
+
+Every user swap request enters a `BatchQueue` PDA. After 10 Solana slots, the queue is cleared by a winning Jito searcher in a single `ClearBatch` instruction. All requests in the batch clear at a single uniform price, bounded by the Switchboard oracle.
+
+Key properties:
+- **O(1) compute** — `ClearBatch` costs ~38,000 CU regardless of batch size
+- **MEV internalization** — searcher bid flows to protocol treasury
+- **Oracle-bounded** — clearing price must be within ±5% of oracle
+- **Anti-front-run** — no individual order can be targeted before clearing
+
+<Card title="PFDA Mechanism" icon="circle-info" href="/protocol/pfda" />
+
+---
+
+## Oracle
+
+Axis uses **Switchboard** as the primary oracle for price feeds on both Devnet and Mainnet. Switchboard data bounds the PFDA clearing price at every batch.
+
+A fallback to Jupiter DEX price is available for long-tail assets without Switchboard feeds, but introduces additional oracle risk.
+
+<Card title="Oracle Design" icon="circle-info" href="/protocol/oracle" />
+
+---
+
+## Current Implementation Status
+
+The Mainnet closed beta runs:
+
+- Full vault (create / deposit / withdraw)
+- G3M AMM with drift detection and rebalancing
+- PFDA batch auction with Switchboard oracle bounding and Jito integration
+
+Features in development:
+- Full TFMM dynamic weight logic
+- Cross-basket order matching
+- Strategy automation for creators
+
+See [Open Questions](/research/open-questions) for architectural decisions still being finalized.

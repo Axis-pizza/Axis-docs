@@ -1,0 +1,62 @@
+---
+title: "Fee Model"
+description: "How Axis fees work — swap fees, AUM fees, and MEV auction yield"
+---
+
+Axis has three fee streams.
+
+---
+
+## Fee Summary
+
+| Fee | Rate | Who pays | Who receives |
+|---|---|---|---|
+| Swap fee | 0.25% | Investor | Protocol treasury |
+| AUM fee | 0.20% / year | ETF holders | Protocol treasury |
+| MEV auction yield | Winning bid | Jito searcher | Protocol treasury |
+
+<Note>
+Creator fees are not enabled in the current Mainnet MVP. All fee revenue goes to the protocol treasury.
+</Note>
+
+---
+
+## Swap Fee (0.25%)
+
+Charged on every swap into or out of an ETF. Applies to both invest and redeem transactions.
+
+The entire 0.25% goes to the protocol treasury in the current MVP.
+
+---
+
+## AUM Fee (0.20% annually)
+
+A continuous fee accrued on the total value of assets held in ETF pools. Collected by the protocol.
+
+This is charged on Mainnet. On Devnet, the AUM fee is present but has no real value.
+
+---
+
+## MEV Auction Yield (PFDA)
+
+The PFDA batch auction forces MEV searchers to compete for the right to clear each batch. The winning searcher submits a bid via Jito bundle. This bid flows directly to the protocol treasury.
+
+This converts MEV extraction — which in standard AMMs bleeds value from LPs — into yield that stays in the protocol.
+
+On Devnet, the Jito searcher network is not active and this yield is not generated.
+
+<Card title="PFDA Mechanism" icon="circle-info" href="/protocol/pfda" />
+
+---
+
+## Revenue Model (Protocol)
+
+At $31M TVL (illustrative):
+
+| Source | Annual revenue |
+|---|---|
+| Swap fees | ~$78K (assuming 1× annualized turnover) |
+| AUM fees | ~$62K |
+| MEV auction yield | Variable |
+
+At $100M TVL, modeled ARR exceeds $1M.

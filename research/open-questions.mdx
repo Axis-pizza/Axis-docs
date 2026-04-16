@@ -1,0 +1,65 @@
+---
+title: "Open Questions"
+description: "Unresolved architectural decisions in the Axis protocol"
+---
+
+This section documents architectural decisions that are unresolved or actively being researched. Axis publishes these openly as part of its commitment to intellectual honesty about the protocol's current state.
+
+---
+
+## 1. Does TFMM + PFDA Fully Eliminate LVR?
+
+**Status: Unresolved**
+
+The PFDA eliminates within-batch LVR by clearing all orders at a single price. But does LVR persist across batch windows?
+
+If prices move significantly between consecutive 10-slot windows, an arbitrageur could still profit by submitting a swap request in window N+1 to exploit the stale clearing price from window N. The oracle bounding (±5%) limits the magnitude, but does not eliminate cross-window LVR entirely.
+
+**Current working assumption:** PFDA substantially reduces LVR compared to continuous AMMs. Whether it fully eliminates LVR in the information-theoretic sense is an open empirical question. QuantAMM's live TFMM data shows outperformance of the LVR benchmark in practice — but "outperformance" is not the same as "full elimination."
+
+---
+
+## 2. AMM vs. Vault Architecture
+
+**Status: Unresolved**
+
+Two architectural approaches for holding ETF assets:
+
+**AMM model:** Assets sit in a liquidity pool. The AMM pricing curve is the mechanism for in/out flows. Rebalancing happens via swaps against the pool.
+
+**Vault model:** Assets sit in a non-AMM vault. In/out flows happen via deposit/withdraw instructions. Rebalancing is external (e.g., triggered by the protocol and routed through Jupiter).
+
+The current implementation is a hybrid — an AMM-style G3M pool paired with an Axis Vault. The long-term architecture may converge on one or the other depending on capital efficiency and rebalancing cost tradeoffs.
+
+---
+
+## 3. Dynamic Weight Logic (TFMM)
+
+**Status: In development**
+
+The full TFMM — where target weights update according to a strategy and interpolate smoothly via SLERP — is not yet live. The current G3M uses static target weights with manual rebalancing.
+
+Open sub-questions:
+- What weight update strategies should be supported at launch (e.g., momentum, mean-reversion, fixed-schedule)?
+- How does the SLERP interpolation interact with the PFDA batch windows?
+- Does multiblock MEV (see Willetts and Harrington, 2024) create exploits against the TFMM during weight transitions?
+
+---
+
+## 4. Long-Tail Asset Support
+
+**Status: Partially addressed**
+
+The [Long-Tail Asset Problem](/research/long-tail-assets) — specifically, how to price and rebalance baskets containing illiquid tokens — is partially addressed by the oracle fallback (Jupiter DEX price) and the PFDA oracle bounding.
+
+But for truly illiquid tokens with wide spreads and shallow orderbooks, even the oracle fallback may not provide reliable prices. A robust solution for long-tail baskets is an open design problem.
+
+---
+
+## 5. Cross-Basket Order Matching
+
+**Status: Future roadmap**
+
+When multiple ETF pools process orders in the same batch window, some orders may be natural counterparties — Pool A selling SOL / buying JUP, Pool B selling JUP / buying SOL. Matching these internally would reduce the amount of volume that needs to go to external DEXes (Jupiter), reducing fees and slippage for all parties.
+
+Cross-basket matching is a planned feature but is not implemented in the current MVP.

@@ -1,0 +1,75 @@
+---
+title: "Investing in ETFs"
+description: "How to invest in and redeem Axis ETF positions"
+---
+
+## How It Works
+
+When you invest in an Axis ETF, you swap a token (typically SOL) into the ETF pool. In return, you receive an **ETF token** — an SPL token representing your proportional share of the underlying basket.
+
+This token:
+- Is standard SPL — transferable, composable, tradeable
+- Represents a claim on the underlying assets
+- Can be redeemed at any time for the underlying tokens
+
+---
+
+## Investing
+
+1. Open an ETF from the Discover feed
+2. Tap **Invest**
+3. Enter the amount you want to swap in
+4. Review the estimated output and slippage
+5. Confirm the transaction in your wallet
+
+Your swap request enters the PFDA batch queue. It will be cleared within the next batch window (~10 Solana slots, approximately 4 seconds). After clearing, your ETF tokens are available.
+
+<Note>
+Because of the PFDA batch mechanism, your transaction has two steps: the initial swap request, and the Claim step after the batch clears. The Claim is initiated automatically in the UI — you may need to sign a second transaction.
+</Note>
+
+---
+
+## Redeeming
+
+1. Go to **Portfolio**
+2. Find your ETF position
+3. Tap **Redeem**
+4. Enter the amount of ETF tokens to redeem
+5. Confirm the transaction
+
+You will receive the underlying tokens proportionally based on the current basket composition. The redemption also goes through the PFDA batch queue.
+
+---
+
+## Understanding Your Position
+
+The ETF token price is derived from the underlying basket value — it changes as the prices of the underlying tokens change.
+
+Your ETF token is worth:
+```
+(your ETF tokens / total ETF supply) × total basket value
+```
+
+---
+
+## Slippage
+
+Slippage depends on pool liquidity and basket composition.
+
+| Environment | Slippage behavior |
+|---|---|
+| **Devnet** | Liquidity is thin. Slippage may be significant for all but the smallest trades. |
+| **Mainnet** | Routes through Jupiter. Depends on underlying token liquidity. |
+
+You can set a slippage tolerance before confirming. The PFDA mechanism enforces `min_amount_out` at the Claim step — if the clearing price falls outside your tolerance, the transaction will fail and your tokens will be returned.
+
+---
+
+## The PFDA and Invest Timing
+
+Your swap request is not executed immediately. It is queued in a batch for up to 10 slots. This is a deliberate design choice: by batching orders and clearing at a single price, Axis prevents front-running and MEV extraction on your trade.
+
+In practice, the delay is imperceptible (~4 seconds). The UI handles the queue and Claim flow automatically.
+
+<Card title="PFDA Mechanism" icon="circle-info" href="/protocol/pfda" />

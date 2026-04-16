@@ -1,0 +1,53 @@
+---
+title: "Security"
+description: "Audit status, responsible disclosure, and upgrade authority"
+---
+
+## Audit Status
+
+The Axis smart contracts have **not yet undergone a formal security audit.**
+
+Planned audit timeline:
+
+| Milestone | Target |
+|---|---|
+| Tier 2/3 audit | Before Mainnet V1 launch (targeted Q3 2026) |
+| Tier 1 audit | Before Token Generation Event (targeted 2028) |
+
+<Warning>
+During the closed beta, only users who understand and accept this risk should deposit real funds.
+</Warning>
+
+---
+
+## Responsible Disclosure
+
+If you discover a security vulnerability in the Axis smart contracts, backend, or frontend:
+
+**Email:** [yusukekikuta.05@gmail.com](mailto:yusukekikuta.05@gmail.com)
+
+**X:** [@muse_jp_sol](https://x.com/muse_jp_sol)
+
+Please do not disclose publicly before the team has had a chance to respond. We aim to acknowledge reports within 48 hours.
+
+There is no formal bug bounty program at this stage.
+
+---
+
+## Non-Custodial Design
+
+Axis, Inc. has no custody over user funds at any point. Assets are held in on-chain smart contract vaults. The team cannot freeze, seize, or recover user funds.
+
+Withdrawals are always available by calling `withdraw` directly against the on-chain program, regardless of frontend availability.
+
+---
+
+## Upgrade Authority
+
+The current programs are upgradeable. Upgrade authority is held by:
+
+`6t4B1TVgSjnAM9h5MpahLhGc9MtWFTGmcaPsy9JGskoV`
+
+This is the Axis team multisig. Upgrades will be announced in advance on X ([@muse_jp_sol](https://x.com/muse_jp_sol)) before execution.
+
+A transition to immutable programs or a time-locked upgrade governance is planned before Mainnet V1.

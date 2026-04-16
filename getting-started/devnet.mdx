@@ -1,0 +1,101 @@
+---
+title: "Axis Devnet - Open Test"
+description: "Try Axis with no real funds on Solana Devnet"
+---
+
+**URL:** [axs.pizza](https://axs.pizza)  
+**Network:** Solana Devnet  
+**Access:** Open — anyone can use it  
+**Funds:** No real money. Devnet SOL only.
+
+The Devnet is the best place to explore Axis with no risk. You can create ETFs, invest in others, and experience the full product flow using Devnet tokens.
+
+---
+
+## Before You Start
+
+You need a Solana wallet. Axis supports:
+
+- [Phantom](https://phantom.app)
+- [Solflare](https://solflare.com)
+- [Backpack](https://backpack.app)
+
+Make sure your wallet is set to **Devnet** before connecting.
+
+In Phantom: Settings → Developer Settings → Change Network → Devnet
+
+---
+
+## Get Devnet SOL
+
+You need Devnet SOL to pay for transactions. Get it free from a faucet:
+
+- [faucet.solana.com](https://faucet.solana.com) — paste your wallet address and request SOL
+- Or run `solana airdrop 2` if you have the Solana CLI installed
+
+2–4 SOL is enough to test everything.
+
+---
+
+## Discover ETFs
+
+The main screen shows ETFs created by other users. Each card displays:
+
+- ETF name and ticker
+- Underlying basket composition
+- Total Value Locked (TVL)
+
+Tap any card to see the full detail view.
+
+---
+
+## Invest in an ETF
+
+1. Open an ETF from the Discover feed
+2. Tap **Invest**
+3. Enter the amount of SOL (or supported token) you want to swap in
+4. Confirm the transaction in your wallet
+
+You will receive ETF tokens representing your proportional share of the basket. These are standard SPL tokens — you can hold, transfer, or redeem them at any time.
+
+To exit, tap **Redeem** on your position and confirm the transaction. You will receive the underlying tokens back proportionally.
+
+---
+
+## Create an ETF
+
+1. Tap **Create** in the navigation
+2. Fill in the details:
+   - **Name** — e.g. "Solana Blue Chips"
+   - **Ticker** — e.g. "SBLUE"
+   - **Description** — optional, shown on the ETF card
+   - **Tokens** — add 2–10 SPL tokens and set target weights (must sum to 100%)
+3. Tap **Create ETF** and confirm the transaction
+
+Your ETF is now live on Devnet. Anyone can discover and invest in it.
+
+<Tip>
+On Devnet, you can create ETFs with any SPL token. The experience is identical to Mainnet except funds are not real.
+</Tip>
+
+---
+
+## Portfolio
+
+The Portfolio view shows:
+
+- All ETF positions you hold
+- Current value of each position
+- Underlying token breakdown
+
+---
+
+## Limitations of the Devnet
+
+The Devnet MVP runs the full product flow but has some limitations:
+
+- Liquidity is thin — large trades will show high slippage
+- The PFDA batch auction is active but the Jito searcher network is not running on Devnet; batch clearing is simulated
+- Some long-tail tokens may not have Devnet liquidity
+
+For a full production experience with the PFDA mechanism running end-to-end, see [Mainnet — Closed Beta](/getting-started/mainnet).

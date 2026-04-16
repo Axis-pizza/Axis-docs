@@ -1,97 +1,73 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Welcome to Axis"
+description: "A permissionless on-chain ETF platform built on Solana"
 ---
 
-## Setting up
+Axis is a permissionless on-chain ETF platform built on Solana. Anyone can tokenize a basket of crypto assets as a tradeable ETF in seconds — and anyone can invest in one with a single swipe.
 
-Get your documentation site up and running in minutes.
+---
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
+## Two Products, One Protocol
+
+Axis currently runs as two separate environments.
+
+| | Devnet MVP | Mainnet MVP |
+|---|---|---|
+| **URL** | [axs.pizza](https://axs.pizza) | [mainnet.axs.pizza](https://mainnet.axs.pizza) |
+| **Access** | Open — anyone can use it | Invite-only closed beta |
+| **Network** | Solana Devnet (no real funds) | Solana Mainnet (real funds) |
+| **Status** | Live | May 2026 |
+
+If you're new to Axis, start with the Devnet. No wallet funding required.
+
+If you received an invite code, head to [Mainnet - Closed Beta](/getting-started/mainnet).
+
+---
+
+## What Can You Do on Axis?
+
+<CardGroup cols={2}>
+  <Card title="Create an ETF" icon="layer-group">
+    Pick your tokens, set weights, name your basket. Permissionless — no approval needed.
+  </Card>
+  <Card title="Invest in ETFs" icon="chart-line">
+    Browse ETFs created by others. Invest with one tap. Your position is a tradeable SPL token.
+  </Card>
+</CardGroup>
+
+---
+
+## Core Technology
+
+Axis is powered by the **PFDA (Protocol Fee Discount Auction)** mechanism — a periodic batch auction that batches user swap requests, clears them at a single price every 10 slots (~4 seconds on Solana), and forces MEV searchers to compete for the right to clear the batch. The winning bid flows back to the protocol as yield, not to extractors.
+
+<Card title="Read more about the PFDA" icon="circle-info" href="/protocol/pfda">
+  Deep dive into the batch auction architecture.
 </Card>
 
-## Make it yours
+---
 
-Design a docs site that looks great and empowers your users.
+## Traction
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+2,000+ ETFs created organically on Devnet with zero marketing. 350+ users. No incentives.
 
-## Create beautiful pages
+Mainnet closed beta launched May 2026.
 
-Everything you need to create world-class documentation.
+---
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Explore the Docs
 
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<CardGroup cols={2}>
+  <Card title="How Axis Works" icon="book-open" href="/getting-started/how-axis-works">
+    Core concepts — roles, the PFDA mechanism, and the swap flow.
+  </Card>
+  <Card title="Devnet: Get Started" icon="rocket" href="/getting-started/devnet">
+    Try Axis with no real funds on Solana Devnet.
+  </Card>
+  <Card title="Protocol Overview" icon="microchip" href="/protocol/overview">
+    The vault, the AMM, and the batch auction — how they connect.
+  </Card>
+  <Card title="Developers" icon="code" href="/developers/architecture">
+    Architecture, smart contracts, and repositories.
+  </Card>
+</CardGroup>

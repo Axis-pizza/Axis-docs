@@ -1,0 +1,104 @@
+---
+title: "Smart Contracts"
+description: "Instructions, PDAs, error codes, and build guide for the Axis protocol"
+---
+
+## Core Instructions
+
+### axis-vault
+
+Handles ETF token lifecycle. All invest/redeem flows pass through this program.
+
+| Instruction | Description |
+|---|---|
+| `create_etf` | Initialize a new ETF vault and SPL Token mint |
+| `deposit` | Deposit SPL tokens into the vault, receive ETF tokens |
+| `withdraw` | Burn ETF tokens, receive underlying assets proportionally |
+
+---
+
+### pfda-amm-3
+
+3-token periodic batch auction with Switchboard oracle bounding and Jito integration.
+
+| Instruction | Description |
+|---|---|
+| `initialize_pool` | Create a new PFDA pool (3 tokens, weights, fee rate, batch window) |
+| `add_liquidity` | Deposit tokens into pool vaults |
+| `swap_request` | Queue a user order into the `BatchQueue` PDA |
+| `clear_batch` | Called by winning Jito searcher — clears all queued orders at a single price |
+| `claim` | User withdraws their output tokens post-clearing |
+
+**`clear_batch` details:**
+- Reads `total_in` from the BatchQueue PDA
+- Fetches price from 3 Switchboard oracle accounts (passed as remaining accounts)
+- Computes clearing price, verifies it falls within oracle ±5%
+- Writes result to `ClearedBatchHistory3`
+- Accepts Jito tip payment to treasury
+- Compute: ~38,000 CU fixed regardless of batch size
+
+**`claim` details:**
+- Reads user's original `SwapRequest` and matching `ClearedBatchHistory3` entry
+- Verifies clearing price satisfies user's `min_amount_out`
+- Releases output tokens; reverts if slippage check fails
+
+---
+
+## PDAs
+
+| PDA | Seeds | Description |
+|---|---|---|
+| `BatchQueue` | `[b"batch_queue", pool_pubkey]` | Accumulates swap requests for current window |
+| `ClearedBatchHistory3` | `[b"cleared_batch", pool_pubkey, batch_id]` | Stores clearing result for each completed batch |
+| `ETFMint` | `[b"etf_mint", vault_pubkey]` | SPL Token mint for ETF shares |
+
+---
+
+## Error Codes
+
+| Code | Name | Description |
+|---|---|---|
+| 6000 | `OraclePriceOutOfBounds` | Clearing price exceeds oracle ±5% bound |
+| 6001 | `SlippageExceeded` | Clearing price fails user's `min_amount_out` |
+| 6002 | `BatchWindowOpen` | `clear_batch` called before window closes |
+| 6003 | `InvalidOracleAccount` | Oracle account does not match pool config |
+| 6004 | `InsufficientBidAmount` | Jito bid below minimum threshold |
+
+---
+
+## Building from Source
+
+```bash
+# Prerequisites: Rust, Solana CLI 3.x, Node.js 22+
+
+git clone https://github.com/muse0509/SolanaAMM
+cd SolanaAMM
+
+# Build programs
+cargo build-sbf --manifest-path contracts/pfda-amm-3/Cargo.toml
+cargo build-sbf --manifest-path contracts/axis-vault/Cargo.toml
+
+# Run unit tests
+cargo test --manifest-path contracts/pfda-amm-3/Cargo.toml
+```
+
+---
+
+## Running E2E Tests (Devnet)
+
+```bash
+# PFDA full path (oracle + Jito bid + treasury)
+cd contracts/pfda-amm-3/client
+npm install
+npx ts-node oracle-bid-e2e.ts
+```
+
+Expected output:
+
+```
+InitializePool  : ~22,000 CU
+AddLiquidity    : ~18,000 CU
+SwapRequest     : ~12,000 CU
+ClearBatch      : ~38,000 CU  ← fixed regardless of batch size
+Claim           : ~9,000 CU
+```

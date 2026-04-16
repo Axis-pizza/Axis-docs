@@ -1,0 +1,58 @@
+---
+title: "Known Risks"
+description: "Smart contract, oracle, liquidity, and design risks in the Axis protocol"
+---
+
+Axis is an unaudited protocol in closed beta. Do not deposit funds you cannot afford to lose.
+
+---
+
+## Smart Contract Risk
+
+The Axis smart contracts have not been formally audited. Bugs or vulnerabilities could result in partial or total loss of funds. This risk applies to all on-chain protocols, but is elevated for unaudited code.
+
+**Mitigation:** Audit planned before Mainnet V1. Upgrade authority held by team multisig.
+
+---
+
+## Oracle Risk
+
+The PFDA clearing price is bounded by Switchboard oracle feeds. If a Switchboard feed becomes stale, unavailable, or is manipulated, clearing prices may be incorrect. For long-tail tokens without a Switchboard feed, the fallback to Jupiter DEX price introduces additional manipulation risk.
+
+**Mitigation:** ±5% oracle bound limits single-batch price impact. Tokens without reliable oracle coverage are higher risk.
+
+---
+
+## Liquidity Risk
+
+ETF pools may have insufficient liquidity for large withdrawals. Redemption routes through Jupiter — if underlying token liquidity is thin, slippage may be significant. In extreme cases (zero liquidity for a token), redemption of a basket containing that token may temporarily fail.
+
+**Mitigation:** The UI shows estimated slippage before confirming. Users can set slippage tolerance.
+
+---
+
+## Design Risk
+
+Axis's core architectural decisions — TFMM dynamic weight logic, PFDA cross-batch LVR behavior, AMM vs. vault structure — are not fully finalized. The protocol may change significantly before production launch. See [Open Questions](/research/open-questions).
+
+**Mitigation:** Changes to core mechanics will be announced and documented before deployment.
+
+---
+
+## Upgrade Risk
+
+The smart contracts are currently upgradeable. The team holds upgrade authority. A malicious or compromised upgrade could affect user funds.
+
+**Mitigation:** Upgrades announced in advance on X. Transition to immutable or time-locked governance planned before Mainnet V1.
+
+---
+
+## Regulatory Risk
+
+The regulatory status of on-chain ETF products is uncertain in most jurisdictions. Users in certain regions (including the United States) are excluded from Mainnet access. Laws may change. Users are responsible for compliance with applicable laws in their jurisdiction.
+
+---
+
+## Devnet-Specific Notes
+
+The Devnet environment ([axs.pizza](https://axs.pizza)) uses no real funds. Devnet SOL has no value. Devnet positions, ETFs, and history are not transferred to Mainnet.

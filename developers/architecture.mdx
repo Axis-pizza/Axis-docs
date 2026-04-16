@@ -1,0 +1,77 @@
+---
+title: "Architecture"
+description: "Stack, programs, and environment separation"
+---
+
+<Note>
+This section reflects the current closed beta implementation. Production architecture is under active development.
+</Note>
+
+---
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Blockchain | Solana Mainnet / Devnet |
+| Smart contracts | Anchor (Rust) |
+| Token standard | SPL Token |
+| Swap routing | Jupiter V6 API |
+| Frontend | React / TypeScript / Vite / Tailwind |
+| Backend | Cloudflare Workers + D1 |
+| RPC | Helius |
+| Oracle | Switchboard |
+
+---
+
+## On-Chain Programs
+
+| Program | Devnet Program ID | Role |
+|---|---|---|
+| `pfda-amm-3` | `DbAPmgkrpCCZrpBMv5x1ye6nJUreqY313SuQjZsMyjEf` | 3-token PFDA batch auction (canonical) |
+| `axis-vault` | `DeeUnCHcnPG8arbjGTLhTKeDhpPUBper3TDrpFPHnCwy` | ETF token lifecycle (create / deposit / withdraw) |
+
+Upgrade authority: `6t4B1TVgSjnAM9h5MpahLhGc9MtWFTGmcaPsy9JGskoV`
+
+---
+
+## Backend
+
+The backend runs on **Cloudflare Workers** with **D1** (SQLite-compatible) for storage.
+
+Responsibilities:
+- Invite code issuance and validation (Mainnet closed beta)
+- Token price caching
+- API layer between frontend and on-chain state
+
+Key design notes:
+- D1 storage limit: 10GB hard cap. The `token_prices` table is separated into its own DB to manage scale.
+- Invite codes are admin-only issued, wallet-bound, single-use, stored on-chain and in D1.
+
+---
+
+## Frontend
+
+Single-page application with four main views:
+
+| View | Description |
+|---|---|
+| Discover | Browse ETFs created by others |
+| Create | Create a new ETF basket |
+| Portfolio | View your positions |
+| Strategy Detail | Individual ETF detail page |
+
+Stack: React / TypeScript / Vite / Tailwind CSS
+
+---
+
+## Environment Separation
+
+Devnet and Mainnet run as completely separate deployments:
+
+| URL | Network | Access |
+|---|---|---|
+| `axs.pizza` | Solana Devnet | Open |
+| `mainnet.axs.pizza` | Solana Mainnet | Invite code required |
+
+The backend at each environment points to the corresponding program IDs and oracle accounts.

@@ -1,0 +1,80 @@
+---
+title: "ETF Creation"
+description: "Create a permissionless on-chain ETF with any SPL tokens"
+---
+
+Anyone can create an on-chain ETF on Axis. No approval, no minimum deposit, no KYC.
+
+---
+
+## What You're Creating
+
+An Axis ETF consists of:
+
+- A **basket** of 2–10 SPL tokens with target weights (must sum to 100%)
+- A **vault** that holds the underlying assets
+- An **SPL token mint** representing proportional shares
+- A **pool** connected to the PFDA batch auction for rebalancing
+
+Once deployed, the ETF is live on-chain permanently. Anyone can discover and invest in it.
+
+---
+
+## Creation Flow
+
+1. Connect your wallet
+2. Tap **Create** in the navigation
+3. Fill in:
+   - **Name** — displayed on the ETF card (e.g. "Solana Blue Chips")
+   - **Ticker** — short identifier (e.g. "SBLUE")
+   - **Description** — optional, shown on detail page
+   - **Tokens + Weights** — add tokens, assign % weights (must total 100%)
+4. Tap **Create ETF** and confirm in your wallet
+
+One transaction. Your ETF is live.
+
+---
+
+## Token Selection
+
+**Devnet:** Any SPL token available on Solana Devnet.
+
+**Mainnet:** Any SPL token with sufficient liquidity for Jupiter to route swaps. Tokens without tradeable pairs will not function correctly for invest/redeem flows.
+
+Long-tail tokens with thin liquidity will show higher slippage for investors. See [The Long-Tail Asset Problem](/research/long-tail-assets).
+
+---
+
+## Weight Configuration
+
+Weights represent the target allocation of the basket. Example:
+
+| Token | Weight |
+|---|---|
+| SOL | 50% |
+| JUP | 30% |
+| BONK | 20% |
+
+Weights are fixed at creation. The protocol handles rebalancing to maintain these weights as prices drift. See [Rebalancing](/products/rebalancing).
+
+---
+
+## After Creation
+
+Your ETF appears in the Discover feed immediately. You can:
+
+- Share the ETF URL
+- Track TVL and volume in your Portfolio view
+
+You cannot modify the basket or weights after creation.
+
+---
+
+## Devnet vs. Mainnet
+
+The creation flow is identical on both environments. The difference is that Devnet uses no real funds and the PFDA mechanism is simulated rather than live.
+
+<CardGroup cols={2}>
+  <Card title="Devnet: Getting Started" icon="flask" href="/getting-started/devnet" />
+  <Card title="Mainnet: Getting Started" icon="shield" href="/getting-started/mainnet" />
+</CardGroup>

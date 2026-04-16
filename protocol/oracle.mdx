@@ -1,0 +1,51 @@
+---
+title: "Oracle Design"
+description: "How Switchboard powers price bounding in the PFDA mechanism"
+---
+
+## Oracle Role in Axis
+
+The oracle serves one critical function in the PFDA mechanism: bounding the clearing price.
+
+When a Jito searcher calls `ClearBatch`, the computed clearing price must fall within ±5% of the oracle's reported price. If the price falls outside this range, the batch cannot clear and orders are returned to users.
+
+This prevents pool drainage by large manipulative orders.
+
+---
+
+## Primary Oracle: Switchboard
+
+Axis uses **Switchboard** as the primary price oracle on both Devnet and Mainnet.
+
+Switchboard is a permissionless oracle network on Solana that supports custom data feeds. Unlike push-based oracles, Switchboard feeds can be pulled on-demand, making them well-suited for the PFDA's batch clearing architecture.
+
+Each PFDA pool is configured with a set of Switchboard oracle accounts (one per token in the basket). The `ClearBatch` instruction reads these accounts to validate the clearing price.
+
+---
+
+## Fallback: Jupiter DEX Price
+
+For long-tail assets without a Switchboard feed, Axis can fall back to the on-chain DEX price via Jupiter.
+
+This introduces additional risk:
+
+- Jupiter-derived prices can be manipulated by large trades in thin markets
+- There is no guarantee of the same freshness as Switchboard
+
+<Warning>
+The fallback is only used when no Switchboard feed exists for a token. ETFs containing tokens without Switchboard feeds carry higher oracle risk. See [Known Risks](/trust/risks).
+</Warning>
+
+---
+
+## Oracle Accounts per Pool
+
+Each pool requires one Switchboard aggregator account per token. These are passed as remaining accounts in the `ClearBatch` transaction and verified on-chain.
+
+On Devnet, Switchboard accounts are available for major tokens (SOL, USDC, common SPL tokens). On Mainnet, coverage is broader but not universal.
+
+---
+
+## Why Not Pyth?
+
+Axis evaluated both Pyth and Switchboard. Switchboard was selected for its permissionless feed creation and on-demand pull model, which aligns better with the PFDA architecture's per-batch oracle read pattern.

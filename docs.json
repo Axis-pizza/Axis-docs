@@ -1,68 +1,70 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Axis",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#6366F1",
+    "light": "#818CF8",
+    "dark": "#4F46E5"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Docs",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Welcome",
+            "pages": ["index"]
+          },
+          {
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "getting-started/how-axis-works",
+              "getting-started/devnet",
+              "getting-started/mainnet",
+              "getting-started/faq"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Products",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "products/etf-creation",
+              "products/investing",
+              "products/rebalancing",
+              "products/fees"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Protocol",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "protocol/overview",
+              "protocol/pfda",
+              "protocol/oracle"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Research",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
+              "research/open-questions",
+              "research/long-tail-assets",
+              "research/papers"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Developers",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "developers/architecture",
+              "developers/smart-contracts",
+              "developers/repos"
+            ]
+          },
+          {
+            "group": "Trust",
+            "pages": [
+              "trust/security",
+              "trust/risks",
+              "trust/legal"
             ]
           }
         ]
@@ -71,14 +73,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "GitHub",
+          "href": "https://github.com/muse0509/SolanaAMM",
+          "icon": "github"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Devnet App",
+          "href": "https://axs.pizza",
+          "icon": "rocket"
         }
       ]
     }
@@ -91,32 +93,19 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:yusukekikuta.05@gmail.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Launch App",
+      "href": "https://axs.pizza"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/Axis_pizza",
+      "github": "https://github.com/Axis-pizza"
     }
   }
 }

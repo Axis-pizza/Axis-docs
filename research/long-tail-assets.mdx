@@ -1,0 +1,51 @@
+---
+title: "The Long-Tail Asset Problem"
+description: "Challenges and mitigations for ETFs containing illiquid SPL tokens"
+---
+
+One of the stated goals of Axis is to support permissionless ETF creation with any SPL token — including the long tail of memecoins, niche project tokens, and newly launched assets that represent a large portion of Solana's on-chain activity.
+
+This creates a set of challenges that don't exist for blue-chip token ETFs.
+
+---
+
+## The Problem
+
+**Thin liquidity.** Long-tail tokens have shallow orderbooks. A swap of even modest size can move the price significantly, creating high slippage for investors and making rebalancing expensive.
+
+**Oracle availability.** Switchboard feeds exist for major tokens but not for most long-tail assets. The Jupiter DEX price fallback is available, but DEX prices for thin markets are more easily manipulated.
+
+**Price manipulation risk.** If an ETF contains a token with thin liquidity, an attacker could potentially manipulate the token's price to exploit the oracle fallback, creating a favorable clearing price in a PFDA batch.
+
+**Rebalancing cost.** For illiquid tokens, the spread between bid and ask is wide. Rebalancing a long-tail position means buying at the ask and selling at the bid — a structural cost on every rebalance.
+
+---
+
+## Current Mitigation
+
+**Oracle bounding.** The PFDA clearing price is bounded to ±5% of the oracle price. This limits the magnitude of any manipulation or price-impact exploit.
+
+**Switchboard-first oracle design.** The oracle fallback to Jupiter only activates when no Switchboard feed exists. This minimizes exposure for tokens that have proper oracle coverage.
+
+**User responsibility.** Axis is permissionless — anyone can create an ETF with any token. Investors are responsible for evaluating the quality and liquidity of the underlying assets before investing.
+
+---
+
+## The "AMMs Are Zero-Sum" Challenge
+
+In early architecture discussions, external reviewers raised the following challenge:
+
+> "AMMs are zero-sum for ETF-style portfolios. An AMM 'lets winners run' only by selling winners as their price rises — the opposite of a long-term index strategy. For illiquid assets, this is especially destructive."
+
+Axis's response:
+- Fixed-weight AMMs do suffer from this. Axis uses a **TFMM (dynamic weight AMM)**, where weights can be updated to encode "winners run" behavior.
+- The PFDA captures rebalancing costs that even TFMMs would otherwise leak to arbitrageurs.
+- QuantAMM's live data on the Base Macro pool (TFMM) shows outperformance of the LVR benchmark from Aug 2025 to Jan 2026.
+
+Whether this fully resolves the problem for long-tail illiquid assets over long time horizons remains an open question. See [Open Questions](/research/open-questions).
+
+---
+
+## Design Principle
+
+Axis does not restrict which tokens can be included in a basket. This is intentional — permissionlessness is a core value. But the documentation, UI, and risk disclosures make clear that long-tail baskets carry substantially higher risk than blue-chip baskets.
