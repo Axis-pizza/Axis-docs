@@ -1,54 +1,66 @@
----
-title: "Legal"
-description: "Beta terms, geographic restrictions, and planned entity structure"
----
+title: "Welcome to Axis"
+description: "A permissionless on-chain ETF platform built on Solana"
 
-<Warning>
-**Entity in formation.** Axis is currently operated by the founding team. The legal entities referenced below (Axis, Inc. and Axis Foundation) are planned but not yet incorporated. References to "Axis" in this document refer to the team operating the protocol during closed beta.
-</Warning>
+Axis is a permissionless on-chain ETF platform built on Solana. Anyone can tokenize a basket of crypto assets as a tradeable ETF in seconds — and anyone can invest in one with a single swipe.
 
-## Planned Entity Structure
+<Warning>**Entity in formation.** Axis is currently operated by the founding team. The legal entities referenced below (Axis, Inc. and Axis Foundation) are planned but not yet incorporated. References to "Axis" in this document refer to the team operating the protocol during closed beta.</Warning>
 
-The following structure is planned and will be established prior to Mainnet V1 launch:
+## Two Products, One Protocol
 
-| Entity | Jurisdiction | Role |
+Axis currently runs as two separate environments.
+
+| | Devnet MVP | Mainnet MVP |
 |---|---|---|
-| **Axis, Inc.** *(planned)* | Delaware C-Corp | Primary operating entity, equity fundraising |
-| **Axis Foundation** *(planned)* | British Virgin Islands | Token issuance, future governance (SPV) |
+| **URL** | [axs.pizza](https://axs.pizza) | [mainnet.axs.pizza](https://mainnet.axs.pizza) |
+| **Access** | Open — anyone can use it | Invite-only closed beta |
+| **Network** | Solana Devnet (no real funds) | Solana Mainnet (real funds) |
+| **Status** | Live | May 2026 |
 
----
+If you're new to Axis, start with the Devnet. No wallet funding required.
 
-## Closed Beta Terms
+If you received an invite code, head to [Mainnet - Closed Beta](/getting-started/mainnet).
 
-<Note>
-Axis Mainnet is in closed, invite-only beta. Formal Terms of Service will be published before Mainnet V1 public launch. The following summarizes key terms applicable during the closed beta.
-</Note>
+## What Can You Do on Axis?
 
-**Beta disclaimer.** Axis Mainnet is provided as a closed beta. The protocol is unaudited and under active development. Features may change, be removed, or behave unexpectedly. Use at your own risk.
+<CardGroup cols={2}>
+  <Card title="Create an ETF" icon="layer-group">
+    Pick your tokens, set weights, name your basket. Permissionless — no approval needed.
+  </Card>
+  <Card title="Invest in ETFs" icon="chart-line">
+    Browse ETFs created by others. Invest with one tap. Your position is a tradeable SPL token.
+  </Card>
+</CardGroup>
 
-**Non-custodial.** Axis does not hold, control, or have access to user funds. Transactions are executed directly on the Solana blockchain. The team cannot reverse transactions, recover lost funds, or freeze assets.
+## Core Technology
 
-**No investment advice.** Nothing on Axis or in this documentation constitutes investment advice. ETFs on Axis are created permissionlessly by third parties. The Axis team does not endorse, vet, or take responsibility for the performance or legitimacy of any ETF listed on the platform.
+Axis is powered by the **PFDA (Protocol Fee Discount Auction)** mechanism — a periodic batch auction that batches user swap requests, clears them at a single price every 10 slots (~4 seconds on Solana), and forces MEV searchers to compete for the right to clear the batch. The winning bid flows back to the protocol as yield, not to extractors.
 
-**Geographic restrictions.** Access to Axis Mainnet ([mainnet.axs.pizza](https://mainnet.axs.pizza)) is restricted to persons not located in or resident of:
-- The United States of America
-- Any jurisdiction where use of the protocol would violate applicable law
+<Card title="Read more about the PFDA" icon="circle-info" href="/protocol/pfda">
+  Deep dive into the batch auction architecture.
+</Card>
 
-By accessing Mainnet, you represent and warrant that you are not a U.S. Person as defined under Regulation S of the U.S. Securities Act of 1933, and that your use of the protocol is permitted under the laws of your jurisdiction.
+## Traction
 
-**No warranties.** The protocol is provided "as is" without warranty of any kind. The Axis team makes no representations regarding the security, reliability, or fitness for purpose of the smart contracts, frontend, or backend infrastructure.
+2,000+ ETFs created organically on Devnet with zero marketing. 350+ users. No incentives.
 
-**Eligibility.** Closed beta access is granted by invite only. Invite codes are non-transferable. The team reserves the right to revoke access at any time.
+Mainnet closed beta launched May 2026.
 
----
+## Explore the Docs
 
-## Privacy
-
-Axis is a non-custodial, pseudonymous protocol. The primary identifier is your Solana wallet address. The team does not collect personal information beyond what is technically necessary to operate the service (e.g., wallet addresses associated with invite codes).
-
-On-chain transactions are public and permanent on the Solana blockchain.
-
----
+<CardGroup cols={2}>
+  <Card title="How Axis Works" icon="book-open" href="/getting-started/how-axis-works">
+    Core concepts — roles, the PFDA mechanism, and the swap flow.
+  </Card>
+  <Card title="Devnet: Get Started" icon="rocket" href="/getting-started/devnet">
+    Try Axis with no real funds on Solana Devnet.
+  </Card>
+  <Card title="Protocol Overview" icon="microchip" href="/protocol/overview">
+    The vault, the AMM, and the batch auction — how they connect.
+  </Card>
+  <Card title="Developers" icon="code" href="/developers/architecture">
+    Architecture, smart contracts, and repositories.
+  </Card>
+</CardGroup>
 
 ## Contact
 
