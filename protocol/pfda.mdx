@@ -1,9 +1,11 @@
 ---
 title: "PFDA Mechanism"
-description: "Protocol Fee Discount Auction — batch auction architecture and the pool design underneath it"
+description: "Protocol Fee Discount Auction
+Batch auction architecture and the pool design underneath it"
 ---
 
-PFDA stands for **Protocol Fee Discount Auction** — a periodic batch auction architecture for processing swaps and rebalancing orders in Axis ETF pools.
+PFDA stands for **Protocol Fee Discount Auction**\
+A periodic batch auction architecture for processing swaps and rebalancing orders in Axis ETF pools.
 
 The design is adapted from Adams et al. (Uniswap Labs, 2025) and implemented natively on Solana's SVM.
 
@@ -30,7 +32,7 @@ Axis uses a **G3M (Geometric Mean Market Maker)** as the underlying pool pricing
 
 The invariant:
 
-```
+```latex
 ∏ x_i^{w_i} = k
 ```
 
@@ -38,7 +40,7 @@ where `x_i` is the reserve of token i, `w_i` is the target weight (summing to 1)
 
 For a swap of token i → token j:
 
-```
+```text
 price(i→j) = (x_j / w_j) / (x_i / w_i)
 ```
 
@@ -62,7 +64,7 @@ Instead of processing swaps immediately (as a standard AMM does), PFDA batches o
   <Step title="SwapRequest">
     The user submits a `SwapRequest` transaction. This does not execute immediately. It registers the order in the `BatchQueue` PDA, incrementing counters:
 
-    ```
+    ```text
     total_in += amount_in
     ```
 
@@ -73,6 +75,7 @@ Instead of processing swaps immediately (as a standard AMM does), PFDA batches o
   </Step>
   <Step title="ClearBatch (searcher)">
     Jito searchers compete off-chain to submit the `ClearBatch` instruction via Jito bundle. The winning searcher:
+
     - Calculates the uniform clearing price for the batch
     - Verifies it falls within ±5% of the Switchboard oracle price
     - Pays a bid to the protocol treasury
@@ -82,6 +85,7 @@ Instead of processing swaps immediately (as a standard AMM does), PFDA batches o
   </Step>
   <Step title="Claim">
     The user calls `Claim`. The contract:
+
     - Looks up the user's order in the batch history
     - Verifies the clearing price satisfies `min_amount_out` (slippage tolerance)
     - Releases output tokens to the user
@@ -193,7 +197,7 @@ Rebalancing swaps go through Jupiter V6 via CPI, running within the same transac
 Axis runs `pfda-amm-3` on Solana Devnet and Mainnet.
 
 | Program | Devnet ID |
-|---|---|
+| --- | --- |
 | `pfda-amm-3` | `DbAPmgkrpCCZrpBMv5x1ye6nJUreqY313SuQjZsMyjEf` |
 
 On Mainnet, the same architecture runs with live Jito searcher competition and real Switchboard feeds.
@@ -209,4 +213,5 @@ On Mainnet, the same architecture runs with live Jito searcher competition and r
 - Willetts and Harrington, "Riemannian Geometry of Optimal Rebalancing," arXiv:2603.05326 (2026)
 - Willetts and Harrington, "Multiblock MEV in Dynamic AMMs," arXiv:2404.15489 (2024)
 
-<Card title="Full papers list" icon="book" href="/research/papers" />
+<Card title="Full papers list" icon="book" href="/research/papers">
+</Card>

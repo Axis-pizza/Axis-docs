@@ -23,9 +23,11 @@ When someone invests in your ETF, they receive an SPL token representing their p
 
 ## The Two Roles
 
-**Creator** — Defines the basket. Chooses tokens, sets weights, names the ETF.
+**Creator**\
+Defines the basket. Chooses tokens, sets weights, names the ETF.
 
-**Investor** — Swaps SOL or any supported token into an ETF token. Holds a proportional claim on the underlying basket.
+**Investor**\
+Swaps SOL or any supported token into an ETF token. Holds a proportional claim on the underlying basket.
 
 <Note>
   In the current Mainnet MVP, creator fees are not enabled. All swap fees go to the protocol.
@@ -51,10 +53,14 @@ Instead of processing each swap immediately (as a standard AMM does), Axis batch
 
 Key properties:
 
-- **No front-running** — orders are queued, not executed individually
-- **MEV internalization** — searchers bid for the right to clear the batch; winning bids flow to the protocol
-- **O(1) clearing cost** — the `ClearBatch` instruction uses ~38,000 compute units regardless of how many orders are in the batch
-- **Oracle-bounded pricing** — the clearing price must stay within ±5% of the Switchboard oracle price
+- **No front-running**\
+  orders are queued, not executed individually
+- **MEV internalization**\
+  searchers bid for the right to clear the batch; winning bids flow to the protocol
+- **O(1) clearing cost**\
+  the `ClearBatch` instruction uses ~38,000 compute units regardless of how many orders are in the batch
+- **Oracle-bounded pricing**\
+  the clearing price must stay within ±5% of the Switchboard oracle price
 
 <Card title="Deep dive: PFDA Mechanism" icon="circle-info" href="/protocol/pfda">
 </Card>
